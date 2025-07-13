@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8" />
+    <title>Currency Converter to THB</title>
+    <style>
+        body { font-family: Arial; text-align: center; padding: 50px; }
+        input, select, button { padding: 8px; font-size: 16px; margin: 5px; }
+    </style>
+</head>
+<body>
+    <h1>แปลงค่าเงินเป็นบาทไทย</h1>
+    <input type="number" id="amount" placeholder="จำนวนเงิน" />
+    <select id="currency">
+        <option value="USD">USD - ดอลลาร์สหรัฐ</option>
+        <option value="EUR">EUR - ยูโร</option>
+        <option value="JPY">JPY - เยน</option>
+        <option value="GBP">GBP - ปอนด์</option>
+        <option value="AUD">AUD - ดอลลาร์ออสเตรเลีย</option>
+    </select>
+    <button onclick="convert()">แปลง</button>
+    <h2 id="result"></h2>
+
+    <script>
+        async function convert() {
+            const amount = document.getElementById('amount').value;
+            const currency = document.getElementById('currency').value;
+            const response = await fetch(`https://api.exchangerate.host/latest?base=${currency}&symbols=THB`);
+            const data = await response.json();
+            const rate = data.rates.THB;
+            const result = amount * rate;
+            document.getElementById('result').innerText = `${amount} ${currency} = ${result.toFixed(2)} THB`;
+        }
+    </script>
+</body>
+</html>
