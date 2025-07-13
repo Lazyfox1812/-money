@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <title>แปลงค่าเงินต่างประเทศเป็นเงินบาท</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 500px;
+      margin: auto;
+      background-color: #f8f8f8;
+    }
+    h2 {
+      text-align: center;
+    }
+    input, select {
+      padding: 12px;
+      margin: 10px 0;
+      width: 100%;
+      font-size: 1em;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 1.2em;
+      color: #006060;
+      text-align: center;
+    }
+    button {
+      padding: 12px;
+      width: 100%;
+      background-color: #4CAF50;
+      color: white;
+      font-size: 1em;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <h2>แปลงค่าเงินต่างประเทศเป็นเงินบาท</h2>
+  <label for="amount">จำนวนเงิน (สกุลต่างประเทศ):</label>
+  <input type="number" id="amount" placeholder="กรอกจำนวนเงิน" />
+
+  <label for="currency">เลือกสกุลเงิน:</label>
+  <select id="currency">
+    <option value="vnd">เวียดนามดอง (VND)</option>
+    <option value="myr">ริงกิตมาเลเซีย (MYR)</option>
+    <option value="sgd">ดอลลาร์สิงคโปร์ (SGD)</option>
+    <option value="lak">กีบลาว (LAK)</option>
+  </select>
+
+  <button onclick="convert()">แปลงค่าเงิน</button>
+
+  <div id="result"></div>
+
+  <script>
+    function convert() {
+      const amount = parseFloat(document.getElementById("amount").value);
+      const currency = document.getElementById("currency").value;
+      let rate = 0;
+      let currencyName = "";
+
+      if (isNaN(amount) || amount <= 0) {
+        document.getElementById("result").innerText = "กรุณากรอกจำนวนเงินที่ถูกต้อง";
+        return;
+      }
+
+      switch (currency) {
+        case "vnd":
+          rate = 1 / 700; // 1 บาท ≈ 700 VND
+          currencyName = "เวียดนามดอง";
+          break;
+        case "myr":
+          rate = 1 / 0.13; // 1 บาท ≈ 0.13 MYR
+          currencyName = "ริงกิตมาเลเซีย";
+          break;
+        case "sgd":
+          rate = 1 / 0.038; // 1 บาท ≈ 0.038 SGD
+          currencyName = "ดอลลาร์สิงคโปร์";
+          break;
+        case "lak":
+          rate = 1 / 570; // 1 บาท ≈ 570 LAK
+          currencyName = "กีบลาว";
+          break;
+      }
+
+      const converted = amount * rate;
+      document.getElementById("result").innerText = `${amount.toLocaleString()} ${currencyName} = ${converted.toFixed(2).toLocaleString()} บาท`;
+    }
+  </script>
+</body>
+</html>
